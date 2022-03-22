@@ -2,7 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const copyPlugin = require('copy-webpack-plugin');
-
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   // Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -13,14 +14,14 @@ module.exports = {
     // Con path.resolve podemos decir dónde va estar la carpeta y la ubicación del mismo
     path: path.resolve(__dirname, "dist"),
     // filename le pone el nombre al archivo final
-    filename: "main.js",
-    assetModuleFilename: 'assets/images/[hash][ext][query]',
+    filename: "[name].[contenthash].js",
   },
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
     extensions: [".js"]
   },
   module: {
+    /* ================ RULES ================ */
     rules: [
       {
         // Test declara que extensión de archivos aplicara el loader
@@ -39,7 +40,7 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
-          'stylus-loader'
+          'stylus-loader',
         ],
       },
 
@@ -47,25 +48,22 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
+        generator: {
+          filename: 'assets/images/[hash][ext][query]',
+        }
       },
 
       // Rules for fonts
       {
-        test: /\.(woff|woff2)$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff',
-            name: '[name].[ext]',
-            outputPath: './assets/fonts/',
-            publicPath: './assets/fonts/',
-            esModule: false,
-          }
-        }
+        test: /\.(woff|woff2)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: './assets/fonts/[name][contenthash][ext]',
+        },
       }
     ]
   },
+  /* ================ PLUGINS ================ */
   plugins: [
     /*
       HtmlWebpackPlugin agrega las etiquetas
@@ -78,14 +76,25 @@ module.exports = {
       template: './public/index.html', // LA RUTA AL TEMPLATE HTML
       filename: './index.html' // NOMBRE FINAL DEL ARCHIVO
     }),
-    new MiniCssExtractPlugin(),
-    // new copyPlugin({
-    //   patterns: [
-    //     {
-    //       from: path.resolve(__dirname, "src", "assets/images"),
-    //       to: "assets/images",
-    //     }
-    //   ]
-    // })
-  ]
+    new MiniCssExtractPlugin({
+      filename: './styles/[name].[contenthash].css'
+    }),
+    new copyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src", "assets/images"),
+          to: "assets/images",
+        }
+      ]
+    })
+  ],
+
+  /* ================ OPTIMIZATION ================ */
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new CssMinimizerPlugin(),
+      new TerserPlugin(),
+    ]
+  }
 }
