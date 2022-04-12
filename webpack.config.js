@@ -5,6 +5,7 @@ const copyPlugin = require('copy-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+// const { CleanWebpackPLugin } = require('clean-webpack-plugin');
 
 module.exports = {
   // Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -16,6 +17,8 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     // filename le pone el nombre al archivo final
     filename: "[name].[contenthash].js",
+    // El output.clean hace la misma funcion que 'clean-webpack-plugin'
+    clean: true,
   },
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
@@ -95,6 +98,7 @@ module.exports = {
       ]
     }),
     new Dotenv(),
+    //new CleanWebpackPLugin(),
   ],
 
   /* ================ OPTIMIZATION ================ */

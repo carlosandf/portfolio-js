@@ -11,7 +11,7 @@ module.exports = {
   output: {
     // path es donde estará la carpeta donde se guardará los archivos
     // Con path.resolve podemos decir dónde va estar la carpeta y la ubicación del mismo
-    path: path.resolve(__dirname, "dev"),
+    path: path.resolve(__dirname, "dist"),
     // filename le pone el nombre al archivo final
     filename: "[name].[contenthash].js",
   },
