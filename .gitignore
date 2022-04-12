@@ -82,6 +82,9 @@ typings/
 .nuxt
 dist
 
+# Nuxt.js dev / generate output
+dev
+
 # Gatsby files
 .cache/
 # Comment in the public line in if your project uses Gatsby and *not* Next.js
