@@ -20,6 +20,7 @@ module.exports = {
     // El output.clean hace la misma funcion que 'clean-webpack-plugin'
     clean: true,
   },
+  mode: "production",
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
     extensions: [".js"],

@@ -16,6 +16,7 @@ module.exports = {
     filename: "[name].[contenthash].js",
   },
   mode: 'development',
+  watch: true,
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
     extensions: [".js"],
