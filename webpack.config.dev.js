@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const copyPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   // Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -16,6 +17,8 @@ module.exports = {
     filename: "[name].[contenthash].js",
   },
   mode: 'development',
+  devtool: 'source-map',
+
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
     extensions: [".js"],
@@ -94,6 +97,7 @@ module.exports = {
       ]
     }),
     new Dotenv(),
+    //new BundleAnalyzerPlugin(),
   ],
   devServer: {
     static: path.join(__dirname, 'dist'),
