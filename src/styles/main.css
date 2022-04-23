@@ -106,7 +106,8 @@ img {
 }
 
 svg:not(:root) {
-	overflow: hidden
+	overflow: hidden;
+	white-space: pre;
 }
 
 figure {

@@ -15,16 +15,18 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     // filename le pone el nombre al archivo final
     filename: "[name].[contenthash].js",
+    clean: true
   },
   mode: 'development',
   devtool: 'source-map',
 
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
-    extensions: [".js"],
+    extensions: [".js", "jsx"],
     alias: {
       '@utils': path.resolve(__dirname, 'src/utils/'),
       '@templates': path.resolve(__dirname, 'src/templates/'),
+      '@components': path.resolve(__dirname, 'src/components/'),
       '@styles': path.resolve(__dirname, 'src/styles/'),
       '@images': path.resolve(__dirname, 'src/assets/images/'),
     }
@@ -34,7 +36,7 @@ module.exports = {
     rules: [
       {
         // Test declara que extensión de archivos aplicara el loader
-        test: /\.m?js$/,
+        test: /\.(mjs|js|jsx)$/,
         // Exclude permite omitir archivos o carpetas especificas
         exclude: /node_modules/,
         // Use es un arreglo u objeto donde dices que loader aplicaras
@@ -69,6 +71,14 @@ module.exports = {
         generator: {
           filename: './assets/fonts/[name][contenthash][ext]',
         },
+      },
+      
+      // Rules for html loader
+      {
+        test: /\.html$/,
+        use: [
+          { loader: 'html-loader' }
+        ]
       }
     ]
   },
